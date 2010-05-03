@@ -1,0 +1,11 @@
+
+result = "if(FileEditor.iconLoadRequest == #{@load_request}) {\n"
+@elements.each do |file| 
+  if file.file_type == 'img' || file.file_type == 'thm'
+    result +=  " $('thumb_image_#{file.id}').src = '#{file.thumbnail_url(theme,@image_size,true)}';\n"
+  end
+end
+result += "}"
+page << result
+  
+

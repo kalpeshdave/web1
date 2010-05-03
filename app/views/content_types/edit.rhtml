@@ -1,0 +1,13 @@
+<div class='admin_content'>
+<% admin_form_for :content_type, @content_type do |f| -%>
+  <%= f.label_field :content_name %>
+  <% if @content_type.editable? -%>
+    <%= f.text_field :list_site_node_url, :label => 'List Url' %>
+    <%= f.text_field :detail_site_node_url, :label => 'Detail Url' %>
+  <% else -%>
+    <%= f.custom_field :none, :label => '', :value => 'This is a system content type' %>
+  <% end -%>
+  <%= f.radio_buttons :search_results, [ ['Yes'.t,true],['No'.t,false]], :label => 'Include in search results' %>
+  <%= f.cancel_submit_buttons 'Cancel','Edit' %>
+<% end -%>
+</div>

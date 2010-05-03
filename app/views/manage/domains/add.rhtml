@@ -1,0 +1,12 @@
+<div class='admin_content'>
+
+<% admin_form_for :domain, @domain do |f| %>
+  <%= f.text_field :name %>
+  <% if myself.has_role?('system_admin') -%>
+    <%= f.select :client_id, @clients %>
+  <% end -%>
+  <%= f.radio_buttons :domain_type, [ ['Domain', 'domain'] , ['Redirect','redirect']] %>
+  <%= f.cancel_submit_buttons 'Cancel','Create' %>
+<% end -%>
+
+</div>

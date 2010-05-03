@@ -1,0 +1,21 @@
+<div class='admin_content'>
+
+<% if @initializing -%>
+<div align='center'>
+<h2><%= "Please wait while modules are initializing".t -%>&nbsp;
+<img src='/images/loading_small.gif' align='absmiddle'/>
+</h2>
+</div>
+<% else -%>
+ <h2>All modules are initialized</h2>
+<% end -%>
+
+<% table_for @site_modules, ['Name','Status','Configure'], :class=>'active_table' do |t| %>
+<tr>
+  <td><%= h t.display_name -%></td>
+  <td><%= t.status_display -%></td>
+  <td><%= link_to "Configure", t.options_url if t.options_url && t.status != 'initializing' -%></td>
+</tr>
+<% end -%>
+
+</div>

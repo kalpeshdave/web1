@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+    <title><%= @title || "CMS" %></title>
+
+    <script> var AUTH_TOKEN = "<%= form_authenticity_token.to_s %>";</script>
+    <%= stylesheet_link_tag 'common' %>
+    <%= theme_stylesheet_link_tag  "admin_framework" %>
+    <%= theme_stylesheet_link_tag 'admin_framework_full' %>
+    <%= javascript_include_tag "tiny_mce/tiny_mce_popup_cms" %>
+    <%= javascript_include_tag "overlib/overlib" %>
+    <%= javascript_include_tag :defaults %>
+    <%= javascript_include_tag "builder" %>
+    <%= javascript_include_tag "slider" %>
+    
+<script>
+  MCE_Popup = {
+  
+    imageCallback: function(field,file_type,id,path,url,thumb,name,opts) {
+
+    var ed = tinyMCEPopup.editor;
+    var elm = ed.selection.getNode();
+    var src = url;
+
+    // Fixes crash in Safari
+     if (tinymce.isWebKit)
+       ed.getWin().focus();
+
+    var selectedText = ed.selection.getContent({format:'text'});
+
+    var currentSelection = (selectedText && selectedText.length > 0);
+    
+    if(file_type == 'img') {
+      file_opts = {};
+
+   
+      
+      if(opts) {
+        if(opts['align']) {
+          file_opts['align'] = opts['align'];
+        } 
+      
+      }
+      tinymce.extend(file_opts, {
+        src: src,
+        mce_src: src,
+      });
+    
+      if (elm != null && elm.nodeName.toLowerCase() == "img") {
+        if(src == '')
+          ed.execCommand("mceRemoveNode");
+        else {
+          ed.dom.setAttribs(elm,file_opts);
+	}
+      } else {
+	ed.execCommand("mceInsertContent", false,  '<img id="__mce_tmp" />', {skip_undo : 1});
+        ed.dom.setAttribs('__mce_tmp', file_opts);
+	ed.dom.setAttrib('__mce_tmp', 'id', '');
+        ed.undoManager.add();
+      }
+    }
+    else if(file_type == 'doc' || file_type == 'thm') {
+      file_opts = {
+                  target: '_blank',
+                  href: url
+                  }
+      var html = "<a target='_blank' href='" + url + "'>" + name + "</a>";
+      
+      if (elm != null && elm.nodeName == "A") {
+        if(src == '')
+          tinyMCEPopup.execCommand("mceRemoveNode");
+        else {
+          elm.href = url;
+	  inst.repaint();
+	}
+      } else {
+        if(currentSelection) 
+          html = "<a target='_blank' href='" + url + "'>" + selectedText + "</a>";
+	ed.execCommand("mceInsertContent", false, html);
+      }
+    }
+  
+    tinyMCEPopup.close();
+  }
+  
+
+}
+</script>  
+</head>
+
+<body onload="tinyMCEPopup.executeOnLoad('<%= @onload %>');" >
+<div id='cms_manage_window'>
+<%= @content_for_layout %>
+</div>
+</body>
+</html>

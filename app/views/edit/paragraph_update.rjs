@@ -1,0 +1,13 @@
+@paragraph_object = @paragraph
+
+page.replace_html "cms_paragraph_editor_#{@paragraph_index}", "<div class='cms_paragraph_editor_cover'></div>" + render_paragraph(@site_node,@revision,@paragraph, :editor => true)
+
+if(@paragraph_object.content_publication_id)
+  page << "cmsEdit.registerParagraph(#{@paragraph_index},new cmsPublicationParagraph(#{@paragraph_object.id},#{@paragraph_index},'#{@paragraph_object.display_module_identifier}_#{@paragraph_object.display_type}','#{@paragraph_object.display_module}',#{@paragraph_object.content_publication_id},'#{@paragraph_object.site_feature_id.to_i}'));"
+else
+  page <<  "cmsEdit.registerParagraph(#{@paragraph_index},new cmsEditorParagraph(#{@paragraph_object.id},#{@paragraph_index},'#{@paragraph_object.display_module_identifier}_#{@paragraph_object.display_type}','#{@paragraph_object.display_module}','#{@paragraph_object.site_feature_id.to_i}'));"
+end
+
+
+page << "cmsEdit.pageChanged();"
+page << "cmsEdit.closeBox();"

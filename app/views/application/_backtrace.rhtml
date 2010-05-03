@@ -1,0 +1,13 @@
+A <%= exception.class %> Exception occurred in <%= controller.controller_name %>#<%= controller.action_name %>
+
+  <%= exception.message %>
+  <%= backtrace.first %>
+
+* URL: <%= request.protocol %><%= host %><%= request.request_uri %>
+* Parameters: <%= parameters.inspect %>
+* Rails root: <%= rails_root %>
+* User Agent: <%= request.env['HTTP_USER_AGENT'] -%>
+* Process: <%= $$ %>
+* Server : <%= `hostname -s`.chomp %>
+
+<%= backtrace.join "\n" %>
