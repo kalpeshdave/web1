@@ -2,6 +2,10 @@ set :application, "web1"
 set :repository,  "git://github.com/kalpeshdave/Web1.git"
 
 set :scm, :git
+set :deploy_via, :checkout
+set :git_shallow_clone, 1
+set :deploy_to, "/root/git/web1/"
+default_run_options[:pty] = true
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 role :web, "mongrel"                          # Your HTTP server, Apache/etc
