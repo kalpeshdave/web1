@@ -1,4 +1,4 @@
-set :application, "web1"
+set :application, 'webiva'
 set :repository,  "git://github.com/kalpeshdave/Web1.git"
 
 set :scm, :git
